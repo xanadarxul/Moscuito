@@ -1,0 +1,48 @@
+def calculate_molecular_composition(molecular_data):
+    """
+    Calculate the molecular composition of insects.
+    
+    Parameters:
+    molecular_data (dict): A dictionary where keys are molecular names and values are their amounts.
+    
+    Returns:
+    dict: A dictionary with molecular names as keys and their percentage compositions as values.
+    """
+    total_amount = sum(molecular_data.values())
+    composition = {molecule: (amount / total_amount) * 100 for molecule, amount in molecular_data.items()}
+    return composition
+
+def main():
+    molecular_data = {}
+    
+    print("Введите молекулы и их количество. Введите 'q' для завершения ввода.")
+    
+    while True:
+        try:
+            molecule = input("Введите название молекулы (или 'q' для завершения): ")
+            if molecule.lower() == 'q':
+                break
+            
+            amount = float(input(f"Введите количество молекулы '{molecule}': "))
+            if amount <= 0:
+                print("Количество должно быть положительным числом.")
+                continue
+            
+            molecular_data[molecule] = molecular_data.get(molecule, 0) + amount
+        
+        except ValueError:
+            print("Некорректный ввод. Пожалуйста, введите числовое значение для количества молекулы.")
+        except KeyboardInterrupt:
+            print("\nПрограмма завершена.")
+            break
+    
+    if molecular_data:
+        composition = calculate_molecular_composition(molecular_data)
+        print("\nМолекулярный состав насекомых:")
+        for molecule, percentage in composition.items():
+            print(f"{molecule}: {percentage:.2f}%")
+    else:
+        print("Нет данных для расчета молекулярного состава.")
+
+if __name__ == "__main__":
+    main()
